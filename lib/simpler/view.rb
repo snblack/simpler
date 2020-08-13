@@ -9,7 +9,7 @@ module Simpler
       @env = env
     end
 
-    def render(binding)
+    def render(binding, type)
       template = File.read(template_path)
 
       ERB.new(template).result(binding)
@@ -32,7 +32,11 @@ module Simpler
     def template_path
       path = template || [controller.name, action].join('/')
 
-      Simpler.root.join(VIEW_BASE_PATH, "#{path}.html.erb")
+      if type == 'plain'
+        Simpler.root.join(VIEW_BASE_PATH, "#{path}.txt")
+      else
+        Simpler.root.join(VIEW_BASE_PATH, "#{path}.html.erb")
+      end
     end
 
   end
